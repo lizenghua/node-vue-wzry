@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:18:38
- * @lastTime: 2019-11-05 18:54:03
+ * @lastTime: 2019-11-05 20:11:02
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$http.get("categories");
+      const res = await this.$http.get("rest/categories");
       this.items = res.data;
     },
     remove(row) {
@@ -52,7 +52,7 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          await this.$http.delete(`categories/${row._id}`);
+          await this.$http.delete(`rest/categories/${row._id}`);
           this.$message({
             type: "success",
             message: "删除成功!"

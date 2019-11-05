@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:34:28
- * @lastTime: 2019-11-05 18:47:08
+ * @lastTime: 2019-11-05 20:11:27
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -48,9 +48,9 @@ export default {
   methods: {
     async save() {
       if (this.id) {
-        await this.$http.put(`categories/${this.id}`, this.model);
+        await this.$http.put(`rest/categories/${this.id}`, this.model);
       } else {
-        await this.$http.post("categories", this.model);
+        await this.$http.post("rest/categories", this.model);
       }
       // 跳转到分类列表页
       this.$router.push("/categories/list");
@@ -60,11 +60,11 @@ export default {
       });
     },
     async fetch() {
-      const res = await this.$http.get(`categories/${this.id}`);
+      const res = await this.$http.get(`rest/categories/${this.id}`);
       this.model = res.data;
     },
     async fetchParents() {
-      const res = await this.$http.get("categories");
+      const res = await this.$http.get("rest/categories");
       this.parents = res.data;
     }
   }
