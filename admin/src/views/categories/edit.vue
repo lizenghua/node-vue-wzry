@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:34:28
- * @lastTime: 2019-11-05 14:47:35
+ * @lastTime: 2019-11-05 17:22:43
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -28,8 +28,14 @@ export default {
     };
   },
   methods: {
-    save() {
-      console.log("1");
+    async save() {
+      await this.$http.post("categories", this.model);
+      // 跳转到分类列表页
+      this.$router.push("/categories/list");
+      this.$message({
+        type: "success",
+        message: "保存成功"
+      });
     }
   }
 };
