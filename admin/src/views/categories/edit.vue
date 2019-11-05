@@ -2,13 +2,23 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:34:28
- * @lastTime: 2019-11-05 18:04:06
+ * @lastTime: 2019-11-05 18:47:08
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
     <h2 class="title">{{ id ? "编辑" : "新建" }}分类</h2>
     <el-form label-width="120px" @submit.native.prevent="save">
+      <el-form-item label="上级分类">
+        <el-select v-model="model.parent" placeholder="请选择">
+          <el-option
+            v-for="item in parents"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
@@ -27,11 +37,13 @@ export default {
   },
   data() {
     return {
-      model: {}
+      model: {},
+      parents: []
     };
   },
   created() {
     this.id && this.fetch();
+    this.fetchParents();
   },
   methods: {
     async save() {
@@ -50,6 +62,10 @@ export default {
     async fetch() {
       const res = await this.$http.get(`categories/${this.id}`);
       this.model = res.data;
+    },
+    async fetchParents() {
+      const res = await this.$http.get("categories");
+      this.parents = res.data;
     }
   }
 };

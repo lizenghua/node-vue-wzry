@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 15:39:00
- * @lastTime: 2019-11-05 18:10:41
+ * @lastTime: 2019-11-05 18:53:14
  * @LastAuthor: Do not edit
  */
 module.exports = app => {
@@ -28,7 +28,7 @@ module.exports = app => {
     })
     // 分类列表
     router.get("/categories", async (req, res) => {
-        const items = await Category.find()
+        const items = await Category.find().populate("parent")
         res.send(items)
     })
     // 分类详情

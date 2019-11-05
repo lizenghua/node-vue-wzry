@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:18:38
- * @lastTime: 2019-11-05 18:12:41
+ * @lastTime: 2019-11-05 18:54:03
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -10,6 +10,7 @@
     <h2 class="title">分类列表</h2>
     <el-table :data="items">
       <el-table-column prop="_id" label="ID" width="250"> </el-table-column>
+      <el-table-column prop="parent.name" label="上级分类"> </el-table-column>
       <el-table-column prop="name" label="分类名称"> </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
