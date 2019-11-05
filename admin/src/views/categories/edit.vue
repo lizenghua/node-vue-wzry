@@ -2,12 +2,12 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:34:28
- * @lastTime: 2019-11-05 17:22:43
+ * @lastTime: 2019-11-05 18:04:06
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
-    <h2 class="title">新建分类</h2>
+    <h2 class="title">{{ id ? "编辑" : "新建" }}分类</h2>
     <el-form label-width="120px" @submit.native.prevent="save">
       <el-form-item label="名称">
         <el-input v-model="model.name"></el-input>
@@ -22,20 +22,34 @@
 <script>
 export default {
   name: "create",
+  props: {
+    id: {}
+  },
   data() {
     return {
       model: {}
     };
   },
+  created() {
+    this.id && this.fetch();
+  },
   methods: {
     async save() {
-      await this.$http.post("categories", this.model);
+      if (this.id) {
+        await this.$http.put(`categories/${this.id}`, this.model);
+      } else {
+        await this.$http.post("categories", this.model);
+      }
       // 跳转到分类列表页
       this.$router.push("/categories/list");
       this.$message({
         type: "success",
         message: "保存成功"
       });
+    },
+    async fetch() {
+      const res = await this.$http.get(`categories/${this.id}`);
+      this.model = res.data;
     }
   }
 };
