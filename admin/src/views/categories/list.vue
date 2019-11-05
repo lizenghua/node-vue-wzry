@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:18:38
- * @lastTime: 2019-11-05 17:51:51
+ * @lastTime: 2019-11-05 18:12:41
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -19,7 +19,9 @@
             size="small"
             >编辑</el-button
           >
-          <el-button type="danger" size="small">删除</el-button>
+          <el-button type="danger" size="small" @click="remove(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -42,7 +44,27 @@ export default {
       const res = await this.$http.get("categories");
       this.items = res.data;
     },
-    handleClick() {}
+    remove(row) {
+      this.$confirm(`是否确定要删除分类【${row.name}】`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          await this.$http.delete(`categories/${row._id}`);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+          this.fetch(); //刷新列表
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    }
   }
 };
 </script>
