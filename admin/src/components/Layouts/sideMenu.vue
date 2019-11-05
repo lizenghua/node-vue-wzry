@@ -2,7 +2,7 @@
  * @message: 左侧导航
  * @Author: lzh
  * @since: 2019-11-05 12:15:40
- * @lastTime: 2019-11-05 14:26:25
+ * @lastTime: 2019-11-05 14:34:12
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -16,7 +16,7 @@
           <template slot="title">
             分类
           </template>
-          <!-- <el-menu-item index="/categories/create">创建分类</el-menu-item> -->
+          <el-menu-item index="/categories/create">创建分类</el-menu-item>
           <el-menu-item index="/categories/list">分类列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

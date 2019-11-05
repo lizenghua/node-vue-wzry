@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:18:38
- * @lastTime: 2019-11-05 14:27:16
+ * @lastTime: 2019-11-05 14:31:43
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -32,4 +32,11 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style scoped>
+.title {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+</style>
