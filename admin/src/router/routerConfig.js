@@ -2,7 +2,7 @@
  * @message: 路由配置
  * @Author: lzh
  * @since: 2019-11-05 11:45:32
- * @lastTime: 2019-11-06 16:12:42
+ * @lastTime: 2019-11-06 17:26:00
  * @LastAuthor: Do not edit
  */
 export const routes = [
@@ -91,6 +91,25 @@ export const routes = [
         name: "adEdit",
         component: () => import("@/views/ads/edit.vue"),
         props: true
+      },
+      {
+        path: "/admin_users/create",
+        name: "adminUsersCreate",
+        meta: { title: "创建管理员" },
+        component: () => import("@/views/adminUsers/edit.vue")
+      },
+      {
+        path: "/admin_users/edit/:id",
+        name: "adminUserEdit",
+        meta: { title: "编辑管理员" },
+        component: () => import("@/views/adminUsers/edit.vue"),
+        props: true
+      },
+      {
+        path: "/admin_users/list",
+        name: "adminUserList",
+        meta: { title: "管理员列表" },
+        component: () => import("@/views/adminUsers/list.vue")
       }
     ]
   }
