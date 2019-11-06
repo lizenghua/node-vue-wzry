@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 15:39:00
- * @lastTime: 2019-11-05 20:23:43
+ * @lastTime: 2019-11-06 09:51:31
  * @LastAuthor: Do not edit
  */
 module.exports = app => {
@@ -10,6 +10,8 @@ module.exports = app => {
     const router = express.Router({
         mergeParams: true
     })
+    const multer = require("multer")
+    const upload = multer({ dest: __dirname + "/../../uploads" })
 
     // 新建
     router.post("/", async (req, res) => {
@@ -48,4 +50,11 @@ module.exports = app => {
         req.Model = require(`../../models/${modelName}`)
         next()
     },router)
+
+    // 图片上传
+    app.post("/admin/api/upload", upload.single('file'), async (req, res) => {
+        const file = req.file
+        file.url = `http://localhost:3000/uploads/${file.filename}`
+        res.send(file)
+    })
 }

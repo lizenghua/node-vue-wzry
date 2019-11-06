@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 <!--
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:52
- * @lastTime: 2019-11-05 20:38:18
+ * @lastTime: 2019-11-06 09:54:54
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -13,7 +14,16 @@
         <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item label="图标">
-        <el-input v-model="model.icon"></el-input>
+        <el-upload
+          class="avatar-uploader"
+          :action="$http.defaults.baseURL + '/upload'"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="model.icon" :src="model.icon" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -53,6 +63,17 @@ export default {
     async fetch() {
       const res = await this.$http.get(`rest/items/${this.id}`);
       this.model = res.data;
+    },
+    handleAvatarSuccess(res) {
+      this.$set(this.model, "icon", res.url);
+      // this.model.icon = res.url;
+    },
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isLt2M;
     }
   }
 };
@@ -64,5 +85,28 @@ export default {
   color: #666;
   margin-bottom: 20px;
   padding: 10px 0;
+}
+::v-deep .avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  display: block;
 }
 </style>

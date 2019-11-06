@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 <!--
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:53
- * @lastTime: 2019-11-05 20:46:13
+ * @lastTime: 2019-11-06 10:02:17
  * @LastAuthor: Do not edit
  -->
 
@@ -12,6 +13,11 @@
     <el-table :data="items">
       <el-table-column prop="_id" label="ID" width="250"> </el-table-column>
       <el-table-column prop="name" label="物品名称"> </el-table-column>
+      <el-table-column prop="icon" label="图标">
+        <template slot-scope="scope">
+          <img :src="scope.row.icon" style="height:40px;" />
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
