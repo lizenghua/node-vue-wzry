@@ -2,7 +2,7 @@
  * @message: 路由配置
  * @Author: lzh
  * @since: 2019-11-05 11:45:32
- * @lastTime: 2019-11-06 15:22:37
+ * @lastTime: 2019-11-06 16:12:42
  * @LastAuthor: Do not edit
  */
 export const routes = [
@@ -74,6 +74,22 @@ export const routes = [
         path: "/articles/edit/:id",
         name: "articleEdit",
         component: () => import("@/views/articles/edit.vue"),
+        props: true
+      },
+      {
+        path: "/ads/list",
+        name: "adList",
+        component: () => import("@/views/ads/list.vue")
+      },
+      {
+        path: "/ads/create",
+        name: "adCreate",
+        component: () => import("@/views/ads/edit.vue")
+      },
+      {
+        path: "/ads/edit/:id",
+        name: "adEdit",
+        component: () => import("@/views/ads/edit.vue"),
         props: true
       }
     ]
