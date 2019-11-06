@@ -2,7 +2,7 @@
  * @message: 英雄模型
  * @Author: lzh
  * @since: 2019-11-06 10:19:22
- * @lastTime: 2019-11-06 11:42:34
+ * @lastTime: 2019-11-06 15:02:03
  * @LastAuthor: Do not edit
  */
 const mongoose = require("mongoose")
