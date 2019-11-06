@@ -2,7 +2,7 @@
  * @message: 左侧导航
  * @Author: lzh
  * @since: 2019-11-05 12:15:40
- * @lastTime: 2019-11-05 20:34:35
+ * @lastTime: 2019-11-06 10:09:38
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -25,6 +25,13 @@
           </template>
           <el-menu-item index="/items/create">创建物品</el-menu-item>
           <el-menu-item index="/items/list">物品列表</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group>
+          <template slot="title">
+            英雄
+          </template>
+          <el-menu-item index="/heroes/create">创建英雄</el-menu-item>
+          <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

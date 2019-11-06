@@ -2,7 +2,7 @@
  * @message: 路由配置
  * @Author: lzh
  * @since: 2019-11-05 11:45:32
- * @lastTime: 2019-11-05 20:35:30
+ * @lastTime: 2019-11-06 10:10:29
  * @LastAuthor: Do not edit
  */
 export const routes = [
@@ -42,6 +42,22 @@ export const routes = [
         path: "/items/edit/:id",
         name: "itemEdit",
         component: () => import("@/views/items/edit.vue"),
+        props: true
+      },
+      {
+        path: "/heroes/list",
+        name: "heroList",
+        component: () => import("@/views/heroes/list.vue")
+      },
+      {
+        path: "/heroes/create",
+        name: "heroCreate",
+        component: () => import("@/views/heroes/edit.vue")
+      },
+      {
+        path: "/heroes/edit/:id",
+        name: "heroEdit",
+        component: () => import("@/views/heroes/edit.vue"),
         props: true
       }
     ]

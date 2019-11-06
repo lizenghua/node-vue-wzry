@@ -1,9 +1,8 @@
-/* eslint-disable prettier/prettier */
 <!--
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:52
- * @lastTime: 2019-11-06 09:54:54
+ * @lastTime: 2019-11-06 10:11:58
  * @LastAuthor: Do not edit
  -->
 <template>
