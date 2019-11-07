@@ -2,10 +2,16 @@
  * @message: 路由配置
  * @Author: lzh
  * @since: 2019-11-05 11:45:32
- * @lastTime: 2019-11-06 17:26:00
+ * @lastTime: 2019-11-07 15:52:22
  * @LastAuthor: Do not edit
  */
 export const routes = [
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/login/index.vue"),
+    meta: { isPublic: true }
+  },
   {
     path: "/",
     name: "main",

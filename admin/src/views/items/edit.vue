@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:52
- * @lastTime: 2019-11-06 10:11:58
+ * @lastTime: 2019-11-07 16:13:27
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -15,10 +15,11 @@
       <el-form-item label="图标">
         <el-upload
           class="avatar-uploader"
-          :action="$http.defaults.baseURL + '/upload'"
+          :action="uploadUrl"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
+          :headers="getAuthHeaders()"
         >
           <img v-if="model.icon" :src="model.icon" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -32,11 +33,13 @@
 </template>
 
 <script>
+import myMixins from "@/mixins/mixins.js";
 export default {
   name: "create",
   props: {
     id: {}
   },
+  mixins: [myMixins],
   data() {
     return {
       model: {}
