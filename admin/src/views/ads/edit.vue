@@ -2,14 +2,21 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-06 16:13:11
- * @lastTime: 2019-11-06 16:38:36
+ * @lastTime: 2019-11-07 17:27:31
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
     <h2 class="title">{{ id ? "编辑" : "新建" }}广告位</h2>
-    <el-form label-width="120px" @submit.native.prevent="save">
-      <el-form-item label="名称">
+    <el-form
+      :model="model"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="120px"
+      @submit.native.prevent="save('ruleForm')"
+    >
+      <el-form-item label="名称" prop="name">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item label="广告">
@@ -63,9 +70,20 @@ export default {
     id: {}
   },
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入名称"));
+      } else {
+        callback();
+      }
+    };
     return {
       model: {
+        name: "",
         items: []
+      },
+      rules: {
+        name: [{ validator: validateName, trigger: "blur" }]
       }
     };
   },
@@ -73,17 +91,23 @@ export default {
     this.id && this.fetch();
   },
   methods: {
-    async save() {
-      if (this.id) {
-        await this.$http.put(`rest/ads/${this.id}`, this.model);
-      } else {
-        await this.$http.post("rest/ads", this.model);
-      }
-      // 跳转到分类列表页
-      this.$router.push("/ads/list");
-      this.$message({
-        type: "success",
-        message: "保存成功"
+    async save(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          if (this.id) {
+            await this.$http.put(`rest/ads/${this.id}`, this.model);
+          } else {
+            await this.$http.post("rest/ads", this.model);
+          }
+          // 跳转到分类列表页
+          this.$router.push("/ads/list");
+          this.$message({
+            type: "success",
+            message: "保存成功"
+          });
+        } else {
+          return false;
+        }
       });
     },
     async fetch() {

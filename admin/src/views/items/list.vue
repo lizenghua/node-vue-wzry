@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:53
- * @lastTime: 2019-11-06 10:12:07
+ * @lastTime: 2019-11-07 17:34:50
  * @LastAuthor: Do not edit
  -->
 <template>
@@ -50,7 +50,7 @@ export default {
       this.items = res.data;
     },
     remove(row) {
-      this.$confirm(`是否确定要删除分类【${row.name}】`, "提示", {
+      this.$confirm(`是否确定要删除物品【${row.name}】`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

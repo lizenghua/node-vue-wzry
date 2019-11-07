@@ -2,31 +2,39 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-06 10:11:01
- * @lastTime: 2019-11-06 15:18:50
+ * @lastTime: 2019-11-07 17:40:20
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
     <h2 class="title">{{ id ? "编辑" : "新建" }}英雄</h2>
-    <el-form label-width="120px" @submit.native.prevent="save">
+    <el-form
+      :model="model"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="120px"
+      @submit.native.prevent="save('ruleForm')"
+    >
       <el-tabs type="border-card">
         <el-tab-pane label="基础信息">
-          <el-form-item label="名称">
+          <el-form-item label="名称" prop="name">
             <el-input v-model="model.name"></el-input>
           </el-form-item>
           <el-form-item label="头像">
             <el-upload
               class="avatar-uploader"
-              :action="$http.defaults.baseURL + '/upload'"
+              :action="uploadUrl"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
+              :headers="getAuthHeaders()"
             >
               <img v-if="model.avatar" :src="model.avatar" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="称号">
+          <el-form-item label="称号" prop="title">
             <el-input v-model="model.title"></el-input>
           </el-form-item>
           <el-form-item label="难度">
@@ -109,10 +117,11 @@
               <el-form-item label="图标">
                 <el-upload
                   class="avatar-uploader"
-                  :action="$http.defaults.baseURL + '/upload'"
+                  :action="uploadUrl"
                   :show-file-list="false"
                   :on-success="res => $set(item, 'icon', res.url)"
                   :before-upload="beforeAvatarUpload"
+                  :headers="getAuthHeaders()"
                 >
                   <img v-if="item.icon" :src="item.icon" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -144,18 +153,41 @@
 </template>
 
 <script>
+import myMixins from "@/mixins/mixins.js";
 export default {
   name: "create",
   props: {
     id: {}
   },
+  mixins: [myMixins],
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入名称"));
+      } else {
+        callback();
+      }
+    };
+    var validateTitle = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入称号"));
+      } else {
+        callback();
+      }
+    };
     return {
       model: {
+        name: "",
+        title: "",
+        skills: [],
         scores: {}
       },
       categories: [],
-      items: []
+      items: [],
+      rules: {
+        name: [{ validator: validateName, trigger: "blur" }],
+        title: [{ validator: validateTitle, trigger: "blur" }]
+      }
     };
   },
   created() {
@@ -164,17 +196,23 @@ export default {
     this.fetchItems();
   },
   methods: {
-    async save() {
-      if (this.id) {
-        await this.$http.put(`rest/heroes/${this.id}`, this.model);
-      } else {
-        await this.$http.post("rest/heroes", this.model);
-      }
-      // 跳转到列表页
-      this.$router.push("/heroes/list");
-      this.$message({
-        type: "success",
-        message: "保存成功"
+    async save(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          if (this.id) {
+            await this.$http.put(`rest/heroes/${this.id}`, this.model);
+          } else {
+            await this.$http.post("rest/heroes", this.model);
+          }
+          // 跳转到列表页
+          this.$router.push("/heroes/list");
+          this.$message({
+            type: "success",
+            message: "保存成功"
+          });
+        } else {
+          return false;
+        }
       });
     },
     async fetch() {

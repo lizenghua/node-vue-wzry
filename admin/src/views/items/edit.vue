@@ -2,14 +2,21 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 20:35:52
- * @lastTime: 2019-11-07 16:13:27
+ * @lastTime: 2019-11-07 17:39:33
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
     <h2 class="title">{{ id ? "编辑" : "新建" }}物品</h2>
-    <el-form label-width="120px" @submit.native.prevent="save">
-      <el-form-item label="名称">
+    <el-form
+      :model="model"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="120px"
+      @submit.native.prevent="save('ruleForm')"
+    >
+      <el-form-item label="名称" prop="name">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item label="图标">
@@ -41,25 +48,44 @@ export default {
   },
   mixins: [myMixins],
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入名称"));
+      } else {
+        callback();
+      }
+    };
     return {
-      model: {}
+      model: {
+        name: "",
+        icon: ""
+      },
+      rules: {
+        name: [{ validator: validateName, trigger: "blur" }]
+      }
     };
   },
   created() {
     this.id && this.fetch();
   },
   methods: {
-    async save() {
-      if (this.id) {
-        await this.$http.put(`rest/items/${this.id}`, this.model);
-      } else {
-        await this.$http.post("rest/items", this.model);
-      }
-      // 跳转到列表页
-      this.$router.push("/items/list");
-      this.$message({
-        type: "success",
-        message: "保存成功"
+    async save(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          if (this.id) {
+            await this.$http.put(`rest/items/${this.id}`, this.model);
+          } else {
+            await this.$http.post("rest/items", this.model);
+          }
+          // 跳转到列表页
+          this.$router.push("/items/list");
+          this.$message({
+            type: "success",
+            message: "保存成功"
+          });
+        } else {
+          return false;
+        }
       });
     },
     async fetch() {
@@ -67,8 +93,8 @@ export default {
       this.model = res.data;
     },
     handleAvatarSuccess(res) {
-      this.$set(this.model, "icon", res.url);
-      // this.model.icon = res.url;
+      // this.$set(this.model, "icon", res.url);
+      this.model.icon = res.url;
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;

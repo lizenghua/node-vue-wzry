@@ -2,13 +2,20 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-06 15:22:44
- * @lastTime: 2019-11-06 16:06:29
+ * @lastTime: 2019-11-07 17:32:57
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="create">
     <h2 class="title">{{ id ? "编辑" : "新建" }}文章</h2>
-    <el-form label-width="120px" @submit.native.prevent="save">
+    <el-form
+      :model="model"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="120px"
+      @submit.native.prevent="save('ruleForm')"
+    >
       <el-form-item label="所属分类">
         <el-select v-model="model.categories" placeholder="请选择" multiple>
           <el-option
@@ -19,7 +26,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="标题">
+      <el-form-item label="标题" prop="title">
         <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="详情">
@@ -47,9 +54,21 @@ export default {
     id: {}
   },
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入标题"));
+      } else {
+        callback();
+      }
+    };
     return {
-      model: {},
-      categories: []
+      model: {
+        title: ""
+      },
+      categories: [],
+      rules: {
+        title: [{ validator: validateName, trigger: "blur" }]
+      }
     };
   },
   created() {
@@ -57,17 +76,23 @@ export default {
     this.fetchCategories();
   },
   methods: {
-    async save() {
-      if (this.id) {
-        await this.$http.put(`rest/articles/${this.id}`, this.model);
-      } else {
-        await this.$http.post("rest/articles", this.model);
-      }
-      // 跳转到分类列表页
-      this.$router.push("/articles/list");
-      this.$message({
-        type: "success",
-        message: "保存成功"
+    async save(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          if (this.id) {
+            await this.$http.put(`rest/articles/${this.id}`, this.model);
+          } else {
+            await this.$http.post("rest/articles", this.model);
+          }
+          // 跳转到分类列表页
+          this.$router.push("/articles/list");
+          this.$message({
+            type: "success",
+            message: "保存成功"
+          });
+        } else {
+          return false;
+        }
       });
     },
     async fetch() {
