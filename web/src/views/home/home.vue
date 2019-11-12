@@ -2,18 +2,22 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-12 14:48:44
- * @lastTime: 2019-11-12 15:54:55
+ * @lastTime: 2019-11-12 17:08:57
  * @LastAuthor: Do not edit
  -->
 <template>
   <div class="home">
-    <h3>首页</h3>
+    <swiper></swiper>
   </div>
 </template>
 
 <script>
+import Swiper from "./swiper/swiper";
 export default {
-  name: "Home"
+  name: "Home",
+  components: {
+    Swiper
+  }
 };
 </script>
 
