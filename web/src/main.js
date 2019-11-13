@@ -2,7 +2,7 @@
  * @message:
  * @Author: lzh
  * @since: 2019-11-05 11:29:06
- * @lastTime: 2019-11-12 15:39:02
+ * @lastTime: 2019-11-12 21:01:43
  * @LastAuthor: Do not edit
  */
 import Vue from "vue";
@@ -23,6 +23,7 @@ if ("addEventListener" in document) {
   );
 }
 
+import "@/assets/iconfont/iconfont.css";
 import "@/assets/styles/global.scss";
 
 new Vue({
