@@ -132,11 +132,23 @@ $value in $flex-ai {
 
 //nav
 .nav{
+    display: flex;
     .nav-item{
         border-bottom: 3px solid transparent;
         padding-bottom: 0.2rem;
+        color: map-get($map: $colors, $key: "grey-1");
         &.active{
-            border-bottom: 3px solid #fff;
+            color: map-get($map: $colors, $key: "primary");
+            border-bottom-color: map-get($map: $colors, $key: "primary");
+        }
+    }
+    &.nav-invert{
+        .nav-item{
+            color: map-get($map: $colors, $key: "white");
+            &.active{
+                color: map-get($map: $colors, $key: "white");
+                border-bottom-color: map-get($map: $colors, $key: "white");
+            }
         }
     }
 }
@@ -154,4 +166,11 @@ $value in $flex-ai {
     display: inline-block;
     background: url("../images/index.png") no-repeat;
     background-size: 28.8462rem 35rem;
+}
+
+.text-space{
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+    overflow:hidden; 
+    word-break:break-all;
 }
