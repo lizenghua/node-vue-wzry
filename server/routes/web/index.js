@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-14 15:58:06
- * @lastTime: 2019-11-14 16:26:28
+ * @lastTime: 2019-11-14 17:18:02
  * @LastAuthor: lzh
  */
 module.exports = app => {
@@ -28,6 +28,44 @@ module.exports = app => {
         await Article.deleteMany({}) // 清空文章
         await Article.insertMany(newsList) // 往数据库插入数据
         res.send(newsList)
+    })
+
+    // 新闻列表接口
+    router.get("/news/list", async(req, res) => {
+        const parent = await Category.findOne({
+            name: "新闻分类"
+        })
+        const cats = await Category.aggregate([
+            { $match: { parent: parent._id } },
+            {
+                $lookup: {
+                    from: "articles",
+                    localField: "_id",
+                    foreignField: "categories",
+                    as: "newsList"
+                }
+            },{
+                $addFields: {
+                    "newsList": { $slice: ["$newsList", 5] }
+                }
+            }
+        ])
+        const subCats = cats.map(v => v._id)
+        cats.unshift({
+            name: "热门",
+            newsList: await Article.find().where({
+                categories: { $in: subCats }
+            }).populate("categories").limit(5).lean()
+        })
+        // 在热门中，分类名不应该显示热门，而是隶属原来的分类
+        cats.map(cat => {
+            cat.newsList.map(news => {
+                news.categoryName = (cat.name === "热门") ? news.categories[0].name : cat.name
+                return news
+            })
+            return cat
+        })
+        res.send(cats)
     })
     
     app.use("/web/api", router)
