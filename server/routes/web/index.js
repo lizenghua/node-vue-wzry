@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-14 15:58:06
- * @lastTime: 2019-11-14 20:17:04
+ * @lastTime: 2019-11-14 20:47:44
  * @LastAuthor: lzh
  */
 module.exports = app => {
@@ -10,6 +10,7 @@ module.exports = app => {
     const mongoose = require("mongoose")
     const Category = mongoose.model("Category")
     const Article = mongoose.model("Article")
+    const Hero = mongoose.model("Hero")
 
     // 向后台中自动录入分类和文章数据（$$(".news-txt").map(a => a.innerHTML)）
     router.get("/news/init", async (req, res) => {
@@ -66,6 +67,39 @@ module.exports = app => {
             return cat
         })
         res.send(cats)
+    })
+
+    // 导入英雄数据
+    // JSON.stringify($$(".hero-nav>li").map((el,i) => { 
+    //     return {
+    //         name: el.innerText,
+    //         heroes: $$("li", $$(".hero-list")[i]).map(li => {
+    //             return {
+    //                 name: $$("h3", li)[0].innerHTML,
+    //                 avatar: $$("img", li)[0].src
+    //             }
+    //         })
+    //     }
+    // }))
+    router.get("/heros/init", async (req, res) => {
+        await Hero.deleteMany({}) //清空
+        const rawData= [{"name":"热门","heroes":[{"name":"孙悟空","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/167/167.jpg"},{"name":"亚瑟","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/166/166.jpg"},{"name":"鲁班七号","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg"},{"name":"后羿","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/169/169.jpg"},{"name":"铠","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/193/193.jpg"},{"name":"甄姬","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/127/127.jpg"},{"name":"安琪拉","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/142/142.jpg"},{"name":"妲己","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/109/109.jpg"},{"name":"孙尚香","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/111/111.jpg"},{"name":"吕布","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/123/123.jpg"}]},{"name":"战士","heroes":[{"name":"赵云","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/107/107.jpg"},{"name":"钟无艳","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/117/117.jpg"},{"name":"吕布","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/123/123.jpg"},{"name":"曹操","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/128/128.jpg"},{"name":"典韦","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/129/129.jpg"},{"name":"宫本武藏","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/130/130.jpg"},{"name":"达摩","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/134/134.jpg"},{"name":"老夫子","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/139/139.jpg"},{"name":"关羽","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/140/140.jpg"},{"name":"露娜","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/146/146.jpg"},{"name":"花木兰","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/154/154.jpg"},{"name":"亚瑟","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/166/166.jpg"},{"name":"刘备","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/170/170.jpg"},{"name":"杨戬","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/178/178.jpg"},{"name":"雅典娜","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/183/183.jpg"},{"name":"哪吒","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/180/180.jpg"},{"name":"铠","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/193/193.jpg"},{"name":"狂铁","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/503/503.jpg"},{"name":"李信","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/507/507.jpg"},{"name":"盘古","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/529/529.jpg"},{"name":"曜","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/522/522.jpg"},{"name":"马超","avatar":"https://game.gtimg.cn/images/yxzj/img201606/heroimg/518/518.jpg"}]},{"name":"法师","heroes":[]},{"name":"坦克","heroes":[]},{"name":"刺客","heroes":[]},{"name":"射手","heroes":[]},{"name":"辅助","heroes":[]}]
+
+        for (let cat of rawData) {
+            if(cat.name === "热门"){
+                continue
+            }
+            const category = await Category.findOne({
+                name: cat.name
+            })
+            cat.heroes = cat.heroes.map(hero => {
+                hero.categories = [category]
+                return hero
+            })
+            // 录入英雄
+            await Hero.insertMany(cat.heroes)
+        }
+        res.send(await Hero.find())
     })
     
     app.use("/web/api", router)
