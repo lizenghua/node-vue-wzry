@@ -2,8 +2,8 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-05 14:34:28
- * @lastTime: 2019-11-07 17:23:14
- * @LastAuthor: Do not edit
+ * @lastTime: 2019-11-14 15:47:07
+ * @LastAuthor: lzh
  -->
 <template>
   <div class="create">
@@ -52,7 +52,6 @@ export default {
     };
     return {
       model: {
-        parent: "",
         name: ""
       },
       parents: [],

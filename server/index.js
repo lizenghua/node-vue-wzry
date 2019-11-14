@@ -2,8 +2,8 @@
  * @message: 服务端入口文件
  * @Author: lzh
  * @since: 2019-11-05 11:33:26
- * @lastTime: 2019-11-12 14:39:24
- * @LastAuthor: Do not edit
+ * @lastTime: 2019-11-14 16:02:47
+ * @LastAuthor: lzh
  */
 const express = require('express')
 const app = express()
@@ -20,6 +20,7 @@ app.set("secret", "145dsfetayyr")
 require("./plugins/db")(app)
 // 引入路由
 require("./routes/admin/")(app);
+require("./routes/web/")(app);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`http://localhost:${port}`))
