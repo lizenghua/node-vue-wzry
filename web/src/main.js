@@ -2,7 +2,7 @@
  * @message:
  * @Author: lzh
  * @since: 2019-11-05 11:29:06
- * @lastTime: 2019-11-12 21:01:43
+ * @lastTime: 2019-11-13 17:43:51
  * @LastAuthor: Do not edit
  */
 import Vue from "vue";
@@ -10,6 +10,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import FastClick from "fastclick";
+import VueAwesomeSwiper from "vue-awesome-swiper";
 
 Vue.config.productionTip = false;
 
@@ -25,6 +26,8 @@ if ("addEventListener" in document) {
 
 import "@/assets/iconfont/iconfont.css";
 import "@/assets/styles/global.scss";
+import "swiper/dist/css/swiper.css";
+Vue.use(VueAwesomeSwiper);
 
 new Vue({
   router,
