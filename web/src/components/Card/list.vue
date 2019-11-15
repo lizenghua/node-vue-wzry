@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-13 18:09:27
- * @lastTime: 2019-11-14 14:42:06
+ * @lastTime: 2019-11-15 10:20:16
  * @LastAuthor: lzh
  -->
 <template>
@@ -21,6 +21,7 @@
       </div>
       <swiper
         ref="list"
+        :options="{ autoHeight: true }"
         @slide-change="() => (active = $refs.list.swiper.realIndex)"
       >
         <swiper-slide v-for="(category, i) in dataSource" :key="i">
