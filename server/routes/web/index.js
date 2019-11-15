@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-14 15:58:06
- * @lastTime: 2019-11-15 12:00:40
+ * @lastTime: 2019-11-15 19:26:00
  * @LastAuthor: lzh
  */
 module.exports = app => {
@@ -136,6 +136,12 @@ module.exports = app => {
             categories: { $in: article.categories }
         }).limit(2)
         res.send(article)
+    })
+
+    // 英雄详情
+    router.get("/heroes/:id", async (req, res) => {
+        const hero = await Hero.findById(req.params.id).populate('categories items1 items2 partners.hero').lean()
+        res.send(hero)
     })
     
     app.use("/web/api", router)

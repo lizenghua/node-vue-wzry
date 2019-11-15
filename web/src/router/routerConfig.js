@@ -2,7 +2,7 @@
  * @message:
  * @Author: lzh
  * @since: 2019-11-12 14:49:29
- * @lastTime: 2019-11-15 10:41:20
+ * @lastTime: 2019-11-15 14:53:36
  * @LastAuthor: lzh
  */
 export const routes = [
@@ -23,5 +23,11 @@ export const routes = [
         props: true
       }
     ]
+  },
+  {
+    path: "/hero_details/:id",
+    name: "HeroDetails",
+    component: () => import("@/views/hero/details.vue"),
+    props: true
   }
 ];

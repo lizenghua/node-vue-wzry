@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-06 10:11:01
- * @lastTime: 2019-11-15 09:34:08
+ * @lastTime: 2019-11-15 16:24:33
  * @LastAuthor: lzh
  -->
 <template>
@@ -31,6 +31,19 @@
               :headers="getAuthHeaders()"
             >
               <img v-if="model.avatar" :src="model.avatar" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="顶部底图">
+            <el-upload
+              class="avatar-uploader"
+              :action="uploadUrl"
+              :show-file-list="false"
+              :on-success="res => $set(model, 'banner', res.url)"
+              :before-upload="beforeAvatarUpload"
+              :headers="getAuthHeaders()"
+            >
+              <img v-if="model.banner" :src="model.banner" class="banner" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -127,6 +140,12 @@
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
+              <el-form-item label="冷却值">
+                <el-input v-model="item.delay"></el-input>
+              </el-form-item>
+              <el-form-item label="消耗">
+                <el-input v-model="item.cost"></el-input>
+              </el-form-item>
               <el-form-item label="描述">
                 <el-input type="textarea" v-model="item.description"></el-input>
               </el-form-item>
@@ -138,6 +157,40 @@
                   type="danger"
                   size="small"
                   @click="model.skills.splice(i, 1)"
+                  >删除</el-button
+                >
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="最佳搭档">
+          <el-button size="small" @click="model.partners.push({})">
+            <i class="el-icon-plus"></i> 添加搭档
+          </el-button>
+          <el-row type="flex" style="flex-wrap: wrap;">
+            <el-col :span="12" v-for="(item, i) in model.partners" :key="i">
+              <el-form-item label="选择英雄">
+                <el-select
+                  filterable
+                  v-model="item.hero"
+                  placeholder="请选择英雄"
+                >
+                  <el-option
+                    v-for="hero in heroes"
+                    :key="hero._id"
+                    :value="hero._id"
+                    :label="hero.name"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="描述">
+                <el-input type="textarea" v-model="item.description"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="danger"
+                  size="small"
+                  @click="model.partners.splice(i, 1)"
                   >删除</el-button
                 >
               </el-form-item>
@@ -173,10 +226,12 @@ export default {
         name: "",
         title: "",
         skills: [],
-        scores: {}
+        scores: {},
+        partners: []
       },
       categories: [],
       items: [],
+      heroes: [],
       rules: {
         name: [{ validator: validateName, trigger: "blur" }]
       }
@@ -186,6 +241,7 @@ export default {
     this.id && this.fetch();
     this.fetchCategories();
     this.fetchItems();
+    this.fetchHeroes();
   },
   methods: {
     async save(formName) {
@@ -228,6 +284,10 @@ export default {
     async fetchItems() {
       const res = await this.$http.get("rest/items");
       this.items = res.data;
+    },
+    async fetchHeroes() {
+      const res = await this.$http.get("rest/heroes");
+      this.heroes = res.data;
     }
   }
 };
@@ -261,6 +321,12 @@ export default {
 .avatar {
   width: 80px;
   height: 80px;
+  display: block;
+}
+.banner {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
   display: block;
 }
 .el-rate {

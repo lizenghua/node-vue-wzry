@@ -30,6 +30,14 @@ a{
     }
 };
 
+// border
+// borders
+@each $dir in (top, right, bottom, left) {
+    .border-#{$dir} {
+        border-#{$dir}: 1px solid map-get($map: $colors, $key: "light-2");
+    }
+}
+
 // colors
 @each $colorKey, $color in $colors {
     .text-#{$colorKey} {
@@ -119,16 +127,27 @@ $value in $flex-ai {
 }
 
 // button
-.btn{
+.btn {
     border:none;
     border-radius: 0.1538rem;
-    -webkit-border-radius: 0.1538rem;
-    -moz-border-radius: 0.1538rem;
-    -ms-border-radius: 0.1538rem;
-    -o-border-radius: 0.1538rem;
-    font-size: map-get($map: $font-sizes, $key: 'sm') * $base-font-size;
-    padding: 0.2rem 0.5rem;
-}
+    font-size: map-get($font-sizes, 'sm') * $base-font-size;
+    padding: 0.2rem 0.6rem;
+    &.btn-lg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        color: map-get($colors, 'primary');
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+      }
+      background: map-get($colors, 'white-1');
+      border: 1px solid map-get($colors, 'white-2');
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+    }
+  }
 
 //nav
 .nav{

@@ -2,7 +2,7 @@
  * @message: 英雄模型
  * @Author: lzh
  * @since: 2019-11-06 10:19:22
- * @lastTime: 2019-11-14 21:05:44
+ * @lastTime: 2019-11-15 16:11:40
  * @LastAuthor: lzh
  */
 const mongoose = require("mongoose")
@@ -10,6 +10,7 @@ const mongoose = require("mongoose")
 const Schema = new mongoose.Schema({
     name: { type: String },
     avatar: { type: String },
+    banner: { type: String },
     title: { type: String },
     categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Category" }],
     scores: {
@@ -21,6 +22,8 @@ const Schema = new mongoose.Schema({
     skills: [{
         icon: { type: String },
         name: { type: String },
+        delay: { type: String },
+        cost: { type: String },
         description: { type: String },
         tips: { type: String }
     }],

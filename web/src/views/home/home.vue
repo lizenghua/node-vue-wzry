@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-12 14:48:44
- * @lastTime: 2019-11-15 14:36:35
+ * @lastTime: 2019-11-15 14:59:23
  * @LastAuthor: lzh
  -->
 <template>
@@ -44,14 +44,16 @@
     >
       <template #items="{category}">
         <div class="d-flex flex-wrap" style="margin:0 -0.5rem">
-          <div
+          <router-link
+            tag="div"
+            :to="`/hero_details/${hero._id}`"
             class="p-2 text-center hero-item"
             v-for="(hero, index) in category.heroList"
             :key="index"
           >
             <img :src="hero.avatar" class="w-100" />
             <p>{{ hero.name }}</p>
-          </div>
+          </router-link>
         </div>
       </template>
     </m-card-list>

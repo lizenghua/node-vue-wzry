@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-15 10:27:39
- * @lastTime: 2019-11-15 14:37:53
+ * @lastTime: 2019-11-15 18:43:05
  * @LastAuthor: lzh
  -->
 <template>
@@ -65,12 +65,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_var.scss";
-.border-bottom {
-  border-bottom: 1px solid map-get($map: $colors, $key: "light-2");
-}
-.border-top {
-  border-top: 2px solid map-get($map: $colors, $key: "grey");
-}
 ::v-deep .body {
   p {
     line-height: 2rem;
