@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-12 14:48:44
- * @lastTime: 2019-11-15 10:08:42
+ * @lastTime: 2019-11-15 10:35:57
  * @LastAuthor: lzh
  -->
 <template>
@@ -18,7 +18,9 @@
     >
       <template #items="{category}">
         <ul>
-          <li
+          <router-link
+            tag="li"
+            :to="`/article_details/${item._id}`"
             v-for="(item, i) in category.newsList"
             :key="i"
             class="d-flex pt-3"
@@ -31,7 +33,7 @@
             <span class="text-grey ml-2 fs-sm">{{
               item.createdAt | date
             }}</span>
-          </li>
+          </router-link>
         </ul>
       </template>
     </m-card-list>

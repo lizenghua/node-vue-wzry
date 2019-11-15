@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-14 15:58:06
- * @lastTime: 2019-11-15 10:12:13
+ * @lastTime: 2019-11-15 12:00:40
  * @LastAuthor: lzh
  */
 module.exports = app => {
@@ -127,6 +127,15 @@ module.exports = app => {
         })
        
         res.send(cats)
+    })
+
+    // 文章详情
+    router.get("/articles/:id", async (req, res) => {
+        const article = await Article.findById(req.params.id).lean()
+        article.related = await Article.find().where({
+            categories: { $in: article.categories }
+        }).limit(2)
+        res.send(article)
     })
     
     app.use("/web/api", router)
