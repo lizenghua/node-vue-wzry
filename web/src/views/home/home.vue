@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-12 14:48:44
- * @lastTime: 2019-11-15 10:35:57
+ * @lastTime: 2019-11-15 14:36:35
  * @LastAuthor: lzh
  -->
 <template>
@@ -31,7 +31,7 @@
               <span class="text-dark">{{ item.title }}</span>
             </div>
             <span class="text-grey ml-2 fs-sm">{{
-              item.createdAt | date
+              item.createdAt | dateFilter
             }}</span>
           </router-link>
         </ul>
@@ -62,18 +62,12 @@
 import MSwiper from "./components/swiper";
 import MCategory from "./components/category";
 import MCardList from "@/components/Card/list";
-import dayjs from "dayjs";
 export default {
   name: "Home",
   components: {
     MSwiper,
     MCategory,
     MCardList
-  },
-  filters: {
-    date(val) {
-      return dayjs(val).format("YYYY-MM-DD");
-    }
   },
   data() {
     return {

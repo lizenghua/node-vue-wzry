@@ -2,7 +2,7 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-15 10:27:39
- * @lastTime: 2019-11-15 11:57:42
+ * @lastTime: 2019-11-15 14:37:53
  * @LastAuthor: lzh
  -->
 <template>
@@ -10,7 +10,9 @@
     <div class="d-flex px-2 py-3 border-bottom">
       <span class="text-dark">&lt;</span>
       <span class="flex-1 pl-2 text-space text-blue">{{ model.title }}</span>
-      <span class="ml-2 text-grey fs-xs">{{ model.createdAt }}</span>
+      <span class="ml-2 text-grey fs-xs">{{
+        model.createdAt | dateFilter
+      }}</span>
     </div>
     <div class="p-3 body" v-html="model.body"></div>
     <h3 class="text-blue p-3 border-top">相关资讯</h3>
@@ -22,7 +24,9 @@
       class="d-flex py-2 px-3"
     >
       <span class="flex-1 text-space">{{ item.title }}</span>
-      <span class="ml-2 fs-xs text-grey">{{ item.createdAt }}</span>
+      <span class="ml-2 fs-xs text-grey">{{
+        item.createdAt | dateFilter
+      }}</span>
     </router-link>
   </div>
 </template>
@@ -54,7 +58,6 @@ export default {
     async fetchDetails() {
       const res = await this.$http.get(`articles/${this.id}`);
       this.model = res.data;
-      console.log(res.data);
     }
   }
 };
