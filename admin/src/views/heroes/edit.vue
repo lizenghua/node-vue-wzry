@@ -2,8 +2,8 @@
  * @message: 
  * @Author: lzh
  * @since: 2019-11-06 10:11:01
- * @lastTime: 2019-11-07 17:40:20
- * @LastAuthor: Do not edit
+ * @lastTime: 2019-11-15 09:34:08
+ * @LastAuthor: lzh
  -->
 <template>
   <div class="create">
@@ -34,7 +34,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="称号" prop="title">
+          <el-form-item label="称号">
             <el-input v-model="model.title"></el-input>
           </el-form-item>
           <el-form-item label="难度">
@@ -168,13 +168,6 @@ export default {
         callback();
       }
     };
-    var validateTitle = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入称号"));
-      } else {
-        callback();
-      }
-    };
     return {
       model: {
         name: "",
@@ -185,8 +178,7 @@ export default {
       categories: [],
       items: [],
       rules: {
-        name: [{ validator: validateName, trigger: "blur" }],
-        title: [{ validator: validateTitle, trigger: "blur" }]
+        name: [{ validator: validateName, trigger: "blur" }]
       }
     };
   },

@@ -2,8 +2,8 @@
  * @message: 英雄模型
  * @Author: lzh
  * @since: 2019-11-06 10:19:22
- * @lastTime: 2019-11-06 15:02:03
- * @LastAuthor: Do not edit
+ * @lastTime: 2019-11-14 21:05:44
+ * @LastAuthor: lzh
  */
 const mongoose = require("mongoose")
 
@@ -35,4 +35,4 @@ const Schema = new mongoose.Schema({
     }]
 })
 
-module.exports = mongoose.model("Hero",Schema)
+module.exports = mongoose.model("Hero",Schema,"heroes")
